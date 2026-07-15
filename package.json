@@ -5,22 +5,53 @@
   "description": "OpenCode plugin that adds Codex priority service tier behind /fast",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./server": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./tui": {
+      "types": "./dist/tui.d.ts",
+      "import": "./dist/tui.js"
+    }
+  },
   "files": [
     "dist",
     "README.md"
   ],
   "scripts": {
-    "clean": "rm -rf dist",
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
     "build": "npm run clean && tsc",
+    "test": "npm run build && node --test dist/fast-status-state.test.js dist/fast-toggle.test.js",
     "prepack": "npm run build",
     "dev": "opencode plugin dev"
   },
+  "dependencies": {
+    "jsonc-parser": "^3.3.1",
+    "zod": "^4.1.8"
+  },
   "peerDependencies": {
-    "@opencode-ai/plugin": ">=0.13.7"
+    "@opencode-ai/plugin": ">=0.13.7",
+    "@opentui/solid": ">=0.4.3",
+    "solid-js": ">=1.9.0"
+  },
+  "peerDependenciesMeta": {
+    "@opentui/solid": {
+      "optional": true
+    },
+    "solid-js": {
+      "optional": true
+    }
   },
   "devDependencies": {
-    "@opencode-ai/plugin": "^1.1.49",
+    "@opencode-ai/plugin": "^1.18.1",
+    "@opentui/solid": "^0.4.3",
     "@types/node": "^25.1.0",
+    "solid-js": "1.9.12",
     "typescript": "^5.9.3"
   }
 }

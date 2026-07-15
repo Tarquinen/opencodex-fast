@@ -9,6 +9,8 @@ An OpenCode plugin that adds `"service_tier": "priority"` to Codex requests when
 - Mirrors Codex Fast mode, which is documented as 1.5x faster at 2x credit cost
 - Leaves all non-Codex requests untouched
 - Persists a single global `enabled` flag in `~/.config/opencode/opencodex-fast.jsonc`
+- Shows a `fast` indicator beside the session prompt while fast mode is enabled
+- Supports `Ctrl+Y` in the base TUI mode to toggle fast mode globally
 
 ## Commands
 
@@ -29,3 +31,19 @@ Add to your OpenCode config:
   "plugin": ["opencodex-fast@latest"],
 }
 ```
+
+OpenCode 1.18.1 and newer can also load the package's TUI entry point. Add the
+same package to your TUI config to show the status indicator:
+
+```jsonc
+// tui.jsonc
+{
+  "plugin": ["opencodex-fast@latest"],
+}
+```
+
+The server and TUI entry points are separate, so the plugin must be listed in
+both files when configuring it manually. The TUI integration requires OpenCode
+1.18.1+. Press `Ctrl+Y` in base mode to toggle the persisted global state; the
+indicator uses the active theme's warning color and remains hidden while fast
+mode is off.

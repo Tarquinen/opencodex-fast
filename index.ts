@@ -8,6 +8,7 @@ import {
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import type { Plugin } from "@opencode-ai/plugin";
+import { parseFastState } from "./fast-status-state.js";
 
 const FAST_ON_MESSAGE = "Fast mode is now ON.";
 const FAST_OFF_MESSAGE = "Fast mode is now OFF.";
@@ -63,9 +64,8 @@ function readState(): boolean {
             return false;
         }
 
-        const raw = readFileSync(STATE_PATH, "utf8");
-        const parsed = JSON.parse(raw) as { enabled?: unknown };
-        return parsed.enabled === true;
+        const parsed = parseFastState(readFileSync(STATE_PATH, "utf8"));
+        return parsed.kind === "valid" && parsed.enabled;
     } catch {
         return false;
     }
@@ -74,6 +74,7 @@ function readState(): boolean {
 function maybeInjectPriority(init: any, input: any): any {
     const url = resolveUrl(input);
     if (!isCodexUrl(url)) return init;
+    fastEnabled = readState();
     if (!fastEnabled) return init;
 
     const body = parseBody(init?.body);
@@ -110,6 +111,7 @@ async function sendIgnoredMessage(
 }
 
 function getFastMessage(modeArg?: string): string {
+    fastEnabled = readState();
     const normalized = modeArg?.toLowerCase();
 
     if (normalized === "on") {

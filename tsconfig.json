@@ -14,8 +14,10 @@
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
     "sourceMap": true,
-    "types": ["node"]
+    "types": ["node"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "@opentui/solid"
   },
-  "include": ["index.ts"],
+  "include": ["index.ts", "tui.tsx", "fast-status-state.ts", "fast-toggle.ts", "fast-status-state.test.ts", "fast-toggle.test.ts"],
   "exclude": ["node_modules", "dist"]
 }
