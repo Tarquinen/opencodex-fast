@@ -1,4 +1,5 @@
-import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
+import { randomUUID } from "node:crypto";
+import { mkdir, readFile, rename, unlink, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 
 import { parseFastState } from "./fast-status-state.js";
@@ -37,9 +38,13 @@ export async function togglePersistedFastState(path: string): Promise<boolean> {
     const enabled = !(await readPersistedFastState(path));
     await mkdir(dirname(path), { recursive: true });
 
-    const tempPath = `${path}.${process.pid}.${crypto.randomUUID()}.tmp`;
-    await writeFile(tempPath, `${JSON.stringify({ enabled }, null, 2)}\n`, "utf8");
-    await rename(tempPath, path);
+    const tempPath = `${path}.${process.pid}.${randomUUID()}.tmp`;
+    try {
+        await writeFile(tempPath, `${JSON.stringify({ enabled }, null, 2)}\n`, "utf8");
+        await rename(tempPath, path);
+    } finally {
+        await unlink(tempPath).catch(() => undefined);
+    }
     return enabled;
 }
 
