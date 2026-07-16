@@ -18,6 +18,6 @@
     "jsx": "react-jsx",
     "jsxImportSource": "@opentui/solid"
   },
-  "include": ["index.ts", "tui.tsx", "fast-status-state.ts", "fast-toggle.ts"],
+  "include": ["index.ts", "tui.tsx", "fast-session-state.ts"],
   "exclude": ["node_modules", "dist"]
 }

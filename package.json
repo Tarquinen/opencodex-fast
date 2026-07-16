@@ -29,12 +29,8 @@
     "prepack": "npm run build",
     "dev": "opencode plugin dev"
   },
-  "dependencies": {
-    "jsonc-parser": "^3.3.1",
-    "zod": "^4.1.8"
-  },
   "peerDependencies": {
-    "@opencode-ai/plugin": ">=0.13.7",
+    "@opencode-ai/plugin": ">=1.18.1",
     "@opentui/solid": ">=0.4.3",
     "solid-js": ">=1.9.0"
   },
