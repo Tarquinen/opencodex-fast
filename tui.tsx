@@ -35,6 +35,11 @@ const tui: TuiPlugin = async (api) => {
     api.slots.register({
         order: 90,
         slots: {
+            home_prompt_right() {
+                return enabled() ? (
+                    <text fg={api.theme.current.warning}>fast</text>
+                ) : null;
+            },
             session_prompt_right() {
                 return enabled() ? (
                     <text fg={api.theme.current.warning}>fast</text>
